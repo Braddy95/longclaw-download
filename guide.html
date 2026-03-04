@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Longclaw User Guide — VKB Agri Processors</title>
+  <link rel="icon" type="image/png" href="icon.png">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a120b;
+      color: #c8d6ca;
+      line-height: 1.7;
+    }
+
+    @media print {
+      body { background: #fff; color: #1a1a1a; }
+      .no-print { display: none !important; }
+      .page-break { page-break-before: always; }
+      a { color: #2e7d32; }
+      .section { border-color: #ccc !important; }
+      .section h2 { color: #2e7d32 !important; border-color: #ccc !important; }
+      h3 { color: #333 !important; }
+      code { background: #f0f0f0 !important; color: #2e7d32 !important; }
+      .param-table th { background: #f0f0f0 !important; color: #333 !important; }
+      .param-table td, .param-table th { border-color: #ccc !important; color: #333 !important; }
+      .tip { background: #f0faf0 !important; border-color: #2e7d32 !important; color: #333 !important; }
+      .tip strong { color: #2e7d32 !important; }
+    }
+
+    .header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      border-bottom: 1px solid #1c3320;
+    }
+
+    .header img {
+      width: 80px;
+      height: 80px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+      filter: drop-shadow(0 4px 20px rgba(141, 198, 63, 0.3));
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      color: #e8f0ea;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .header .sub {
+      color: #5a9040;
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      margin-top: 4px;
+    }
+
+    .header .version {
+      color: #4a7a3e;
+      font-size: 0.8rem;
+      margin-top: 12px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin: 20px;
+      color: #5a9040;
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+
+    .back-link:hover { color: #8dc63f; }
+
+    .toc {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .toc h2 {
+      color: #8dc63f;
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #1c3320;
+    }
+
+    .toc ol {
+      padding-left: 20px;
+    }
+
+    .toc li {
+      padding: 4px 0;
+    }
+
+    .toc a {
+      color: #7a9a7e;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .toc a:hover { color: #8dc63f; }
+
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    .section {
+      margin-top: 50px;
+    }
+
+    .section h2 {
+      color: #8dc63f;
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #1c3320;
+    }
+
+    h3 {
+      color: #c8d6ca;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+
+    h4 {
+      color: #8dc63f;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 16px;
+      margin-bottom: 6px;
+    }
+
+    p {
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      color: #a0b8a2;
+    }
+
+    ul, ol {
+      padding-left: 20px;
+      margin-bottom: 12px;
+    }
+
+    li {
+      font-size: 0.88rem;
+      color: #a0b8a2;
+      padding: 2px 0;
+    }
+
+    code {
+      background: #1a2e1c;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      color: #8dc63f;
+    }
+
+    .param-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 16px;
+      font-size: 0.82rem;
+    }
+
+    .param-table th {
+      text-align: left;
+      padding: 8px 10px;
+      background: rgba(141, 198, 63, 0.1);
+      color: #8dc63f;
+      border-bottom: 1px solid #1c3320;
+      font-weight: 600;
+    }
+
+    .param-table td {
+      padding: 6px 10px;
+      border-bottom: 1px solid #141e14;
+      color: #a0b8a2;
+    }
+
+    .param-table tr:hover td {
+      background: rgba(141, 198, 63, 0.03);
+    }
+
+    .tip {
+      background: rgba(141, 198, 63, 0.08);
+      border-left: 3px solid #8dc63f;
+      border-radius: 0 8px 8px 0;
+      padding: 12px 16px;
+      margin: 16px 0;
+      font-size: 0.85rem;
+      color: #7a9a7e;
+    }
+
+    .tip strong {
+      color: #8dc63f;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 30px 20px;
+      border-top: 1px solid #1c3320;
+      color: #2e5230;
+      font-size: 0.8rem;
+    }
+
+    .footer a { color: #4a7a3e; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <a class="back-link no-print" href="index.html">&larr; Back to Download Page</a>
+
+  <div class="header">
+    <img src="icon.png" alt="Longclaw">
+    <h1>Longclaw User Guide</h1>
+    <p class="sub">VKB Agri Processors &middot; Strategy Platform</p>
+    <p class="version">Version 1.0.0 &middot; March 2026 &middot; Administrator: Bradley Jackson</p>
+  </div>
+
+  <div class="toc no-print">
+    <h2>Table of Contents</h2>
+    <ol>
+      <li><a href="#getting-started">Getting Started</a></li>
+      <li><a href="#data">Data Management</a></li>
+      <li><a href="#backtest">Backtest Configuration</a></li>
+      <li><a href="#indicators">Indicators Reference</a></li>
+      <li><a href="#rules">Entry &amp; Exit Rules</a></li>
+      <li><a href="#risk">Risk Management &amp; Spread</a></li>
+      <li><a href="#results">Results Dashboard</a></li>
+      <li><a href="#hunter">Strategy Hunter</a></li>
+      <li><a href="#autofit">Autofit &amp; Pattern Scanner</a></li>
+      <li><a href="#leaderboard">Leaderboard</a></li>
+      <li><a href="#composite">Composite Signal Feed</a></li>
+      <li><a href="#whatif">What-If Analysis</a></li>
+      <li><a href="#zones">Liquidity Zones</a></li>
+      <li><a href="#spreads">Spread Backtesting</a></li>
+      <li><a href="#correlation">Correlation Finder</a></li>
+      <li><a href="#hedge">Hedge Cover Optimizer</a></li>
+      <li><a href="#reports">Reports</a></li>
+      <li><a href="#commentary">Commentary</a></li>
+      <li><a href="#admin">Admin Panel</a></li>
+      <li><a href="#shortcuts">Keyboard Shortcuts</a></li>
+    </ol>
+  </div>
+
+  <div class="content">
+
+    <!-- 1. GETTING STARTED -->
+    <div class="section" id="getting-started">
+      <h2>1. Getting Started</h2>
+      <p>Longclaw is a standalone desktop application for backtesting, strategy discovery, and portfolio analysis on commodity derivatives. It runs as a local server with a native window — no browser required.</p>
+
+      <h3>First Launch</h3>
+      <p>After installation, launch Longclaw from the desktop shortcut. A loading screen appears while the server initialises (5–15 seconds on first run). You'll be logged in automatically if your Refinitiv Eikon session is running and your account has been approved by the administrator.</p>
+
+      <h3>Navigation</h3>
+      <p>The sidebar on the left provides access to all pages. Your username, version number, and sign-out option are shown at the bottom. The top-right corner shows your Refinitiv connection status.</p>
+
+      <h3>Typical Workflow</h3>
+      <ol>
+        <li><strong>Data</strong> — Download instrument data from Refinitiv</li>
+        <li><strong>Backtest</strong> — Build and test a strategy</li>
+        <li><strong>Results</strong> — Analyse performance metrics</li>
+        <li><strong>Save</strong> — Save promising strategies to the Leaderboard</li>
+        <li><strong>What-If</strong> — Monitor live signal status for saved strategies</li>
+        <li><strong>Reports</strong> — Generate PDF/Excel reports for team distribution</li>
+      </ol>
+    </div>
+
+    <!-- 2. DATA -->
+    <div class="section page-break" id="data">
+      <h2>2. Data Management</h2>
+      <p>The Data page is the central hub for loading OHLCV (Open, High, Low, Close, Volume) data. All data is shared across team members via the shared database.</p>
+
+      <h3>Pulling from Refinitiv</h3>
+      <ol>
+        <li>Enter a <strong>RIC</strong> (Reuters Instrument Code) — e.g. <code>MAWc1</code> for White Maize, <code>WEAc1</code> for Wheat</li>
+        <li>Select a <strong>Timeframe</strong> — 1min, 5min, 15min, 1H, 4H, 1D, or 1W</li>
+        <li>Optionally set start/end dates to limit the range</li>
+        <li>Click <strong>Pull Data</strong> — requires Refinitiv Eikon running locally</li>
+      </ol>
+
+      <h3>Common RICs</h3>
+      <table class="param-table">
+        <tr><th>RIC</th><th>Instrument</th></tr>
+        <tr><td><code>MAWc1</code></td><td>White Maize (SAFEX)</td></tr>
+        <tr><td><code>MAYc1</code></td><td>Yellow Maize (SAFEX)</td></tr>
+        <tr><td><code>WEAc1</code></td><td>Wheat (SAFEX)</td></tr>
+        <tr><td><code>SOYBNc1</code></td><td>Soybeans (SAFEX)</td></tr>
+        <tr><td><code>SUFc1</code></td><td>Sunflower (SAFEX)</td></tr>
+        <tr><td><code>ZAR=</code></td><td>USD/ZAR</td></tr>
+        <tr><td><code>Cc1</code></td><td>CBOT Corn</td></tr>
+        <tr><td><code>Wc1</code></td><td>CBOT Wheat</td></tr>
+        <tr><td><code>Sc1</code></td><td>CBOT Soybeans</td></tr>
+      </table>
+
+      <h3>CSV/XLSX Upload</h3>
+      <p>You can also upload data from a file. Expected columns: <code>datetime, open, high, low, close, volume</code>. After selecting a file you'll be prompted for a RIC label to assign to the data.</p>
+
+      <h3>Top-Up</h3>
+      <p>Use the <strong>Top up</strong> button in the instruments table to fetch new bars since the last download — keeps your data current without re-downloading everything.</p>
+    </div>
+
+    <!-- 3. BACKTEST -->
+    <div class="section page-break" id="backtest">
+      <h2>3. Backtest Configuration</h2>
+      <p>The Backtest page is the core workspace. It's divided into three columns: Indicators (left), Rules &amp; Risk (centre), and Pattern Conditions (right).</p>
+
+      <h3>Setting Up a Backtest</h3>
+      <ol>
+        <li>Enter an <strong>Instrument RIC</strong> and select a <strong>Timeframe</strong></li>
+        <li>Optionally set <strong>Start/End dates</strong> (defaults to all available data)</li>
+        <li>Add <strong>Indicators</strong> (up to 5)</li>
+        <li>Configure <strong>Entry Rules</strong> — the conditions that trigger a trade</li>
+        <li>Configure <strong>Exit Rules</strong> — how positions are closed</li>
+        <li>Set <strong>Risk Management</strong> — stop loss, take profit, trailing</li>
+        <li>Set <strong>Spread</strong> — transaction cost per trade</li>
+        <li>Press <strong>Ctrl+Enter</strong> or click Run</li>
+      </ol>
+
+      <h3>Trade Direction</h3>
+      <table class="param-table">
+        <tr><th>Mode</th><th>Description</th></tr>
+        <tr><td><strong>Long Only</strong></td><td>Buy to open, sell to close. One set of entry/exit rules.</td></tr>
+        <tr><td><strong>Short Only</strong></td><td>Sell to open, buy to close. One set of entry/exit rules.</td></tr>
+        <tr><td><strong>Both</strong></td><td>Separate rules for long entries, short entries, long exits, short exits.</td></tr>
+      </table>
+
+      <h3>Strategy Advisor</h3>
+      <p>A live panel in the left column that analyses your current setup and suggests indicators, conditions, and risk settings. It scores your strategy 0–100 based on role coverage (trend filter, signal generator, volume confirmation).</p>
+
+      <h3>Strategy Templates</h3>
+      <p>Click <strong>Strategy Assistant</strong> (top right) to load pre-built templates:</p>
+      <ul>
+        <li><strong>Trend Following</strong> — MA Crossover, MACD, SuperTrend, ADX Trend Strength</li>
+        <li><strong>Mean Reversion</strong> — RSI Reversal, Bollinger Bounce, Z-Score, Morning Star+MACD</li>
+        <li><strong>Breakout</strong> — Donchian Breakout, Keltner Squeeze, Head &amp; Shoulders, Trendline Break</li>
+      </ul>
+    </div>
+
+    <!-- 4. INDICATORS -->
+    <div class="section page-break" id="indicators">
+      <h2>4. Indicators Reference</h2>
+      <p>Indicators are grouped into three categories. Each indicator produces one or more outputs that can be used as signal sources in entry/exit conditions.</p>
+
+      <h3>Trend Indicators</h3>
+      <table class="param-table">
+        <tr><th>Indicator</th><th>Parameters</th><th>Outputs</th></tr>
+        <tr><td>SMA</td><td>period (2–500, default 20)</td><td>sma</td></tr>
+        <tr><td>EMA</td><td>period (2–500, default 20)</td><td>ema</td></tr>
+        <tr><td>WMA</td><td>period (2–500, default 20)</td><td>wma</td></tr>
+        <tr><td>HMA</td><td>period (2–500, default 20)</td><td>hma</td></tr>
+        <tr><td>DEMA</td><td>period (2–500, default 20)</td><td>dema</td></tr>
+        <tr><td>TEMA</td><td>period (2–500, default 20)</td><td>tema</td></tr>
+        <tr><td>MACD</td><td>fast (12), slow (26), signal (9)</td><td>macd_line, signal_line, histogram</td></tr>
+        <tr><td>ADX</td><td>period (2–100, default 14)</td><td>adx, plus_di, minus_di</td></tr>
+        <tr><td>Parabolic SAR</td><td>af_start (0.02), af_max (0.2)</td><td>sar</td></tr>
+        <tr><td>Ichimoku Cloud</td><td>tenkan (9), kijun (26), senkou_b (52)</td><td>tenkan_sen, kijun_sen, senkou_a, senkou_b</td></tr>
+        <tr><td>SuperTrend</td><td>period (10), multiplier (3.0)</td><td>supertrend, direction</td></tr>
+        <tr><td>Aroon</td><td>period (2–200, default 25)</td><td>aroon_up, aroon_down</td></tr>
+        <tr><td>VWAP</td><td>(none)</td><td>vwap</td></tr>
+        <tr><td>Linear Regression</td><td>period (50), deviations (2.0)</td><td>lr_mid, lr_upper, lr_lower</td></tr>
+      </table>
+
+      <h3>Range-Bound Indicators</h3>
+      <table class="param-table">
+        <tr><th>Indicator</th><th>Parameters</th><th>Outputs</th></tr>
+        <tr><td>RSI</td><td>period (14), overbought (70), oversold (30)</td><td>rsi</td></tr>
+        <tr><td>Stochastic</td><td>k_period (14), d_period (3)</td><td>stoch_k, stoch_d</td></tr>
+        <tr><td>Bollinger Bands</td><td>period (20), std_dev (2.0)</td><td>bb_upper, bb_mid, bb_lower</td></tr>
+        <tr><td>CCI</td><td>period (2–200, default 20)</td><td>cci</td></tr>
+        <tr><td>Williams %R</td><td>period (14)</td><td>williams_r</td></tr>
+        <tr><td>Keltner Channel</td><td>ema (20), atr (10), mult (1.5)</td><td>kc_upper, kc_mid, kc_lower</td></tr>
+        <tr><td>Donchian Channel</td><td>period (20)</td><td>dc_upper, dc_mid, dc_lower</td></tr>
+        <tr><td>Z-Score</td><td>period (5–200, default 20)</td><td>zscore</td></tr>
+        <tr><td>Stochastic RSI</td><td>rsi_period (14), stoch_period (14)</td><td>stoch_rsi</td></tr>
+        <tr><td>MFI</td><td>period (14)</td><td>mfi</td></tr>
+        <tr><td>TSI</td><td>long_period (25), short_period (13)</td><td>tsi</td></tr>
+      </table>
+
+      <h3>Volatility &amp; Volume Indicators</h3>
+      <table class="param-table">
+        <tr><th>Indicator</th><th>Parameters</th><th>Outputs</th></tr>
+        <tr><td>ATR</td><td>period (14)</td><td>atr</td></tr>
+        <tr><td>BB Width</td><td>period (20), std_dev (2.0)</td><td>bb_width</td></tr>
+        <tr><td>Historical Vol</td><td>period (20)</td><td>hist_vol</td></tr>
+        <tr><td>Volume SMA</td><td>period (20)</td><td>vol_sma</td></tr>
+        <tr><td>OBV</td><td>(none)</td><td>obv</td></tr>
+        <tr><td>Volume ROC</td><td>period (14)</td><td>vol_roc</td></tr>
+        <tr><td>CMF</td><td>period (20)</td><td>cmf</td></tr>
+        <tr><td>Pivot Points</td><td>(none)</td><td>pivot, r1, r2, r3, s1, s2, s3</td></tr>
+        <tr><td>Heikin-Ashi</td><td>(none)</td><td>ha_open, ha_high, ha_low, ha_close</td></tr>
+        <tr><td>ATR Trailing Stop</td><td>period (14), multiplier (3.0)</td><td>atr_stop</td></tr>
+      </table>
+
+      <h3>Multi-Timeframe Analysis</h3>
+      <p>Each indicator has a timeframe toggle: <strong>Signal</strong> (uses the backtest timeframe) or <strong>Context</strong> (a higher timeframe for filtering). Context indicators appear with a purple <code>CTX</code> badge in condition rows. This allows strategies like "only trade when the daily trend is up, but enter on 1H signals".</p>
+    </div>
+
+    <!-- 5. RULES -->
+    <div class="section page-break" id="rules">
+      <h2>5. Entry &amp; Exit Rules</h2>
+      <p>Rules define when trades are opened and closed. Each rule set uses AND or OR logic to combine multiple conditions.</p>
+
+      <h3>Building a Condition</h3>
+      <ol>
+        <li><strong>Source</strong> — What to measure: Price, or any indicator output (e.g. "RSI(14)", "MACD(12) &rarr; histogram")</li>
+        <li><strong>Operator</strong> — How to compare:
+          <ul>
+            <li><code>crosses above</code> / <code>crosses below</code> — triggers only at the crossover bar</li>
+            <li><code>is above</code> / <code>is below</code> — true whenever the value satisfies the comparison</li>
+            <li><code>increases</code> / <code>decreases</code> — checks if the value is rising or falling</li>
+            <li><code>between</code> — true when the value falls within a min/max range</li>
+          </ul>
+        </li>
+        <li><strong>Value</strong> — Compare against a fixed number OR another indicator. Toggle with the <code>vs</code> / <code>123</code> button.</li>
+      </ol>
+
+      <h3>Quick Threshold Chips</h3>
+      <p>Indicators with well-known levels show clickable chips below the value input:</p>
+      <ul>
+        <li><strong>RSI</strong> — OB 70, OS 30, Mid 50</li>
+        <li><strong>ADX</strong> — Strong 25, Weak 20, V.Strong 40</li>
+        <li><strong>CCI</strong> — OB +100, OS -100, Zero</li>
+        <li><strong>Stochastic</strong> — OB 80, OS 20</li>
+      </ul>
+
+      <h3>Pattern-Based Conditions</h3>
+      <p>Enable chart patterns, candlestick patterns, Fibonacci patterns, or trendlines in the right column. These become available as signal sources in conditions with operators like <code>detected</code>, <code>breakout confirmed</code>, <code>touches</code>, <code>breaks through</code>.</p>
+
+      <div class="tip">
+        <strong>Tip:</strong> Use AND logic for stricter entry (higher quality, fewer trades) and OR logic for broader entry (more trades, potentially more noise). A common approach: AND for entries, AND for exits.
+      </div>
+    </div>
+
+    <!-- 6. RISK -->
+    <div class="section page-break" id="risk">
+      <h2>6. Risk Management &amp; Spread</h2>
+
+      <h3>Stop Loss</h3>
+      <table class="param-table">
+        <tr><th>Type</th><th>How It Works</th><th>When to Use</th></tr>
+        <tr><td><strong>Fixed %</strong></td><td>Stop placed at a fixed percentage from entry price. E.g. 2% on a R4,500 entry = stop at R4,410.</td><td>Simple, predictable risk. Good for beginners.</td></tr>
+        <tr><td><strong>ATR-based</strong></td><td>Stop distance = multiplier &times; ATR(14). E.g. 2.0 &times; ATR means if ATR is R100, stop is R200 from entry. Adapts to current volatility.</td><td>Preferred for commodities — respects market volatility. A 2.0 ATR stop won't get whipsawed on high-vol days like a tight fixed % would.</td></tr>
+      </table>
+
+      <div class="tip">
+        <strong>ATR Stop Explained:</strong> The Average True Range (ATR) measures how much price typically moves per bar. An ATR multiplier of 2.0 means your stop is 2&times; the average bar range away from entry. Lower multipliers (1.0–1.5) are tighter and get stopped out more often. Higher multipliers (2.5–3.0) give the trade more room but risk more per trade.
+      </div>
+
+      <h3>Take Profit</h3>
+      <table class="param-table">
+        <tr><th>Type</th><th>How It Works</th></tr>
+        <tr><td><strong>Fixed %</strong></td><td>Close position when profit reaches this percentage from entry.</td></tr>
+        <tr><td><strong>R:R Ratio</strong></td><td>Take profit is a multiple of the stop loss distance. E.g. R:R of 2:1 means if your stop is R200, your target is R400. This ensures your winners are always larger than your losers.</td></tr>
+      </table>
+
+      <h3>Time Exit</h3>
+      <p>Close the position after a fixed number of bars if no other exit is triggered. Useful for strategies that rely on momentum fading — e.g. exit after 10 bars if neither stop loss nor take profit was hit.</p>
+
+      <h3>Trailing Stop</h3>
+      <table class="param-table">
+        <tr><th>Type</th><th>How It Works</th></tr>
+        <tr><td><strong>None</strong></td><td>No trailing. Position held until SL, TP, time exit, or exit rule triggers.</td></tr>
+        <tr><td><strong>ATR Trailing</strong></td><td>Stop follows price upward (for longs), trailing behind by ATR &times; multiplier. Locks in profit as price moves in your favour. Parameters: ATR Period (default 14) and ATR Multiplier (default 2.0).</td></tr>
+        <tr><td><strong>Percentage</strong></td><td>Stop trails at a fixed % below the highest price reached (for longs). E.g. 2% trailing on a move from R4,500 to R4,700 = stop at R4,606.</td></tr>
+      </table>
+
+      <div class="tip">
+        <strong>Tip:</strong> Trailing stops let winning trades run while protecting profit. ATR trailing is generally better for commodities because it adjusts to volatility — during calm markets it's tighter, during volatile periods it's wider.
+      </div>
+
+      <h3>Spread (Transaction Cost)</h3>
+      <p>Spread simulates the cost of entering and exiting a trade. It is applied in price units (not percentage).</p>
+      <table class="param-table">
+        <tr><th>Mode</th><th>Description</th></tr>
+        <tr><td><strong>Fixed</strong></td><td>A constant cost per trade (e.g. 5 Rand per contract).</td></tr>
+        <tr><td><strong>Volume-adjusted</strong></td><td>Spread scales with volume — wider during thin volume periods.</td></tr>
+        <tr><td><strong>Tick-derived</strong></td><td>Spread derived from actual tick data.</td></tr>
+      </table>
+      <p>Click <strong>Calculate</strong> to fetch the live bid/ask spread from Refinitiv. The result shows average, median, and range — use the <strong>"Use avg"</strong> button to auto-fill.</p>
+    </div>
+
+    <!-- 7. RESULTS -->
+    <div class="section page-break" id="results">
+      <h2>7. Results Dashboard</h2>
+      <p>After running a backtest, the Results page shows comprehensive performance analysis.</p>
+
+      <h3>Key Metrics</h3>
+      <table class="param-table">
+        <tr><th>Metric</th><th>What It Means</th><th>Good Values</th></tr>
+        <tr><td><strong>Win Rate</strong></td><td>% of trades that were profitable</td><td>&gt; 40% (with good R:R)</td></tr>
+        <tr><td><strong>Sharpe Ratio</strong></td><td>Risk-adjusted return (higher = better per unit of risk)</td><td>&gt; 0.5 acceptable, &gt; 1.0 good</td></tr>
+        <tr><td><strong>Max Drawdown</strong></td><td>Largest peak-to-trough decline in equity</td><td>&lt; 20% preferred</td></tr>
+        <tr><td><strong>Profit Factor</strong></td><td>Gross wins / gross losses</td><td>&gt; 1.5 good, &gt; 2.0 excellent</td></tr>
+        <tr><td><strong>Expectancy</strong></td><td>Expected return per trade</td><td>Positive</td></tr>
+        <tr><td><strong>Total Return</strong></td><td>Overall portfolio return</td><td>Positive, context-dependent</td></tr>
+        <tr><td><strong>Robustness</strong></td><td>Out-of-sample / in-sample performance ratio (walk-forward only)</td><td>&gt; 0.7 good, &gt; 0.5 acceptable</td></tr>
+      </table>
+
+      <h3>Charts</h3>
+      <ul>
+        <li><strong>Price + Signals</strong> — Candlestick chart with entry/exit markers and indicator overlays</li>
+        <li><strong>Equity Curve</strong> — Account equity growth over time</li>
+        <li><strong>Heatmap</strong> — Monthly returns grid (green = profit, red = loss)</li>
+        <li><strong>Rolling Performance</strong> — Rolling window metrics over time</li>
+      </ul>
+
+      <h3>Trade Log</h3>
+      <p>Full list of all trades with entry/exit dates, prices, PnL%, holding period, and exit reason. Filterable by direction and outcome. Exportable to CSV.</p>
+
+      <h3>Saving a Strategy</h3>
+      <p>Click <strong>Save Strategy</strong> to persist the strategy and its results to the Leaderboard. Give it a descriptive name — it will be available across all team members.</p>
+    </div>
+
+    <!-- 8. HUNTER -->
+    <div class="section page-break" id="hunter">
+      <h2>8. Strategy Hunter</h2>
+      <p>The Hunter automates strategy discovery by systematically testing every indicator, then combining top performers into pairs and quads.</p>
+
+      <h3>How It Works</h3>
+      <ol>
+        <li><strong>Singles</strong> — Tests every indicator in the library individually</li>
+        <li><strong>Pairs</strong> — Combines the top N singles into every possible 2-indicator combination</li>
+        <li><strong>Quads</strong> — Combines the top pairs into 4-indicator strategies</li>
+      </ol>
+      <p>Scoring: <code>0.5 &times; Sharpe + 0.4 &times; Win% + 0.1 &times; trade_factor</code></p>
+
+      <h3>Configuration</h3>
+      <ul>
+        <li><strong>Strategy Type</strong> — Trend Following, Mean Reversion, Reversal, Range, or Oscillator</li>
+        <li><strong>Direction</strong> — Long Only, Short Only, or Both</li>
+        <li><strong>Stop Loss (ATR mult)</strong> — default 2.0</li>
+        <li><strong>Take Profit (R:R)</strong> — default 2.0</li>
+        <li><strong>Min Trades</strong> — minimum trade count to be considered (default 10)</li>
+        <li><strong>Top singles/pairs to keep</strong> — how many to carry forward (advanced)</li>
+      </ul>
+
+      <p>Click <strong>Load</strong> on any result row to send it to the Backtest page for further refinement.</p>
+    </div>
+
+    <!-- 9. AUTOFIT -->
+    <div class="section page-break" id="autofit">
+      <h2>9. Autofit &amp; Pattern Scanner</h2>
+      <p>Autofit scans the entire price history for chart patterns, candlestick formations, and Elliott Wave structures, then reports their historical accuracy.</p>
+
+      <h3>Controls</h3>
+      <ul>
+        <li><strong>Min Swing %</strong> — Minimum swing size for pattern detection (0.5–20%, default 5.0). Higher values find larger, more significant patterns.</li>
+        <li><strong>Visibility toggles</strong> — Show/hide Chart Patterns, Candlestick, Elliott Wave, Wave Labels, and Price Targets on the chart</li>
+      </ul>
+
+      <h3>Pattern Performance Table</h3>
+      <p>For each detected pattern, shows: count of detections, hit rate (how often the pattern's implied direction was correct over 20-bar forward returns), and average forward return. Use this to identify which patterns are statistically reliable for your instrument.</p>
+    </div>
+
+    <!-- 10. LEADERBOARD -->
+    <div class="section page-break" id="leaderboard">
+      <h2>10. Leaderboard</h2>
+      <p>The Leaderboard ranks all saved strategies across the team. Two views are available:</p>
+
+      <h3>Performance View</h3>
+      <p>Tabular ranking by OOS Win Rate, Sharpe, Max DD, Profit Factor, or Robustness. Filter by instrument, timeframe, or strategy type. Click any row to expand full strategy details including indicator parameters, entry/exit rules, year-by-year performance, and reassessment history.</p>
+
+      <h3>Stability View</h3>
+      <p>Ranks strategies by consistency over time. Each strategy has a Stability Score (0–100). Strategies are tagged as <strong>Stable</strong>, <strong>Degrading</strong>, or <strong>Critical</strong> based on periodic reassessment.</p>
+
+      <h3>Actions</h3>
+      <ul>
+        <li><strong>Open What-If</strong> — Jump to the What-If page with this strategy loaded</li>
+        <li><strong>Re-run Backtest</strong> — Send the strategy config back to the Backtest page</li>
+      </ul>
+    </div>
+
+    <!-- 11. COMPOSITE -->
+    <div class="section page-break" id="composite">
+      <h2>11. Composite Signal Feed</h2>
+      <p>Aggregates all leaderboard strategies into a live signal feed. Each instrument gets a conviction score based on how many strategies agree on direction.</p>
+
+      <h3>Signal Cards</h3>
+      <p>Each card shows: strategy name, instrument, direction (bullish/bearish), state (watching/triggered), OOS metrics, robustness, and confluence score (0–100).</p>
+
+      <h3>Conviction Panel</h3>
+      <p>Per-instrument summary: how many strategies are bullish vs bearish, average win rates, and the top signal.</p>
+
+      <p>Auto-refresh is available (30-minute intervals) to keep the feed current.</p>
+    </div>
+
+    <!-- 12. WHAT-IF -->
+    <div class="section page-break" id="whatif">
+      <h2>12. What-If Analysis</h2>
+      <p>Live chart analysis for a saved strategy. Monitor whether current market conditions are approaching an entry signal.</p>
+
+      <h3>Signal Status Panel</h3>
+      <p>Shows each entry condition with its current value and whether it's met (green) or not met (red). When all conditions align, the strategy is "triggered" — providing a real-time heads-up before placing a trade.</p>
+
+      <h3>Drawing Tools</h3>
+      <p>10 drawing tools for manual chart analysis: Trendline, Horizontal, Fibonacci Retracement, Fibonacci Extension, Andrews Pitchfork, Parallel Channel, Rectangle, Text, Measure, and Eraser.</p>
+
+      <h3>Auto-Refresh</h3>
+      <p>Enable 30-minute auto-refresh to keep watching for signal changes throughout the trading day.</p>
+    </div>
+
+    <!-- 13. ZONES -->
+    <div class="section page-break" id="zones">
+      <h2>13. Liquidity Zones</h2>
+      <p>Volume-profile based support and resistance analysis with VWAP bands.</p>
+
+      <h3>Key Levels</h3>
+      <table class="param-table">
+        <tr><th>Level</th><th>Meaning</th></tr>
+        <tr><td><strong>POC</strong></td><td>Point of Control — the price with the highest traded volume. Acts as a strong magnet/support/resistance.</td></tr>
+        <tr><td><strong>VAH</strong></td><td>Value Area High — upper boundary of the 70% volume range.</td></tr>
+        <tr><td><strong>VAL</strong></td><td>Value Area Low — lower boundary of the 70% volume range.</td></tr>
+        <tr><td><strong>HVN</strong></td><td>High Volume Node — secondary volume clusters. Strong S/R levels.</td></tr>
+        <tr><td><strong>LVN</strong></td><td>Low Volume Node — thin areas where price tends to move quickly through.</td></tr>
+        <tr><td><strong>VWAP</strong></td><td>Volume-Weighted Average Price with &plusmn;1&sigma; and &plusmn;2&sigma; bands.</td></tr>
+      </table>
+
+      <p>The zones table ranks levels by proximity to current price, with strength scores and confluence indicators.</p>
+    </div>
+
+    <!-- 14. SPREADS -->
+    <div class="section page-break" id="spreads">
+      <h2>14. Spread Backtesting</h2>
+      <p>Backtests strategies on a synthetic spread instrument calculated as <strong>Base RIC minus Quote RIC</strong>.</p>
+
+      <h3>How Spreads Work</h3>
+      <p>A calendar spread (e.g. MAWc1 vs MAYc1) or inter-commodity spread creates a synthetic price series: <code>Spread = Base Price - Quote Price</code>. The backtest engine runs indicators and rules on this spread series.</p>
+
+      <h3>Configuration</h3>
+      <ol>
+        <li>Select <strong>Base RIC</strong> and <strong>Quote RIC</strong></li>
+        <li>Set <strong>Timeframe</strong> and optional date range</li>
+        <li>Set <strong>Bid/Ask (R)</strong> — transaction cost per leg entry/exit</li>
+        <li>Add indicators, rules, and risk management (same as Backtest page)</li>
+        <li>Press <strong>Ctrl+Enter</strong> to run</li>
+      </ol>
+
+      <p>You can also <strong>Load Strategy</strong> from the Leaderboard to apply an existing strategy to a spread pair.</p>
+
+      <div class="tip">
+        <strong>Tip:</strong> Spread trading reduces directional risk. If White Maize and Yellow Maize are correlated, trading the spread captures the relative value difference rather than outright price direction.
+      </div>
+    </div>
+
+    <!-- 15. CORRELATION -->
+    <div class="section page-break" id="correlation">
+      <h2>15. Correlation Finder</h2>
+      <p>Multi-instrument lead/lag and correlation analysis. Select 2–5 instruments to find which ones move first and which follow.</p>
+
+      <h3>Outputs</h3>
+      <ul>
+        <li><strong>Cumulative Return Chart</strong> — multi-line chart comparing returns across instruments</li>
+        <li><strong>Pair Correlation Table</strong> — for each pair: leader, follower, lead time in days, correlation strength, expected follower move, and conviction score</li>
+        <li><strong>First Mover Ranking</strong> — which instruments most frequently lead their peers</li>
+        <li><strong>Expectations Summary</strong> — plain-English projections, e.g. "MAWc1 moved +1.2% in the last 3d &rarr; SOYBNc1 expected +0.8% over next 3d [72%]"</li>
+      </ul>
+
+      <h3>Parameters</h3>
+      <ul>
+        <li><strong>Lookback (bars)</strong> — how many bars to analyse (default 252 = ~1 year daily)</li>
+        <li><strong>Max Lag (days)</strong> — maximum cross-correlation lag to test (default 20)</li>
+      </ul>
+    </div>
+
+    <!-- 16. HEDGE -->
+    <div class="section page-break" id="hedge">
+      <h2>16. Hedge Cover Optimizer</h2>
+      <p>Determines optimal forward cover timing and percentages for a commodity position, using a saved strategy's signal strength to time cover decisions.</p>
+
+      <h3>Configuration</h3>
+      <ul>
+        <li><strong>Strategy</strong> — select a saved leaderboard strategy</li>
+        <li><strong>Forward Lots</strong> — total position size to be hedged (default 200)</li>
+        <li><strong>Max Cover</strong> — maximum forward cover horizon (1–12 months)</li>
+      </ul>
+
+      <h3>Outputs</h3>
+      <ul>
+        <li><strong>Cover Allocation Table</strong> — recommended cover % by signal strength (Strong Bullish &rarr; 80–100%, Neutral &rarr; 40–60%, Strong Bearish &rarr; 0–20%)</li>
+        <li><strong>Cover Period Curve</strong> — performance at each cover period with the optimal highlighted</li>
+        <li><strong>Benchmark Comparison</strong> — strategy-timed cover vs always-cover and never-cover baselines</li>
+        <li><strong>Seasonality Heatmap</strong> — month &times; year historical price patterns</li>
+      </ul>
+    </div>
+
+    <!-- 17. REPORTS -->
+    <div class="section page-break" id="reports">
+      <h2>17. Reports</h2>
+      <p>Generate downloadable PDF or Excel reports for team distribution.</p>
+
+      <h3>Report Types</h3>
+      <ul>
+        <li><strong>Weekly Strategy Review</strong> — top N strategies per instrument with performance summary</li>
+        <li><strong>Hedge Analysis</strong> — includes hedge optimizer recommendations</li>
+        <li><strong>Custom</strong> — user-defined parameters</li>
+      </ul>
+
+      <h3>Options</h3>
+      <ul>
+        <li><strong>Time Window</strong> — Last Week, Last Month, or All Time</li>
+        <li><strong>Instruments</strong> — comma-separated RIC list</li>
+        <li><strong>Top N per instrument</strong> — how many strategies to include (1–20)</li>
+        <li><strong>Format</strong> — PDF, XLSX, or Both</li>
+        <li><strong>Include hedge recommendations</strong> — adds hedge output</li>
+        <li><strong>Include what-if snapshots</strong> — adds current signal status</li>
+      </ul>
+    </div>
+
+    <!-- 18. COMMENTARY -->
+    <div class="section page-break" id="commentary">
+      <h2>18. Commentary</h2>
+      <p>A shared team feed for market observations, trade ideas, and strategy notes. All users see all posts.</p>
+      <ul>
+        <li>Write observations, paste links, reference reports (<code>/reports?id=X</code>)</li>
+        <li>Attach images (displayed as thumbnails with lightbox) or PDFs</li>
+        <li>Posts auto-refresh every 30 seconds</li>
+        <li>You can only delete your own posts</li>
+        <li><strong>Ctrl+Enter</strong> to post quickly</li>
+      </ul>
+    </div>
+
+    <!-- 19. ADMIN -->
+    <div class="section page-break" id="admin">
+      <h2>19. Admin Panel</h2>
+      <p>Visible only to administrators. Two tabs: Users and Database.</p>
+
+      <h3>Users Tab</h3>
+      <p>Manage team access. To add a new user:</p>
+      <ol>
+        <li>Get their <strong>Refinitiv App Key</strong> from Eikon &rarr; Menu &rarr; App Key Management</li>
+        <li>Click <strong>Add User</strong>, enter their username and app key</li>
+        <li>When they open Longclaw with Eikon running, they're automatically logged in</li>
+      </ol>
+      <p>You can also edit keys, toggle admin roles, and remove users.</p>
+
+      <h3>Database Tab</h3>
+      <p>Configure the database connection. Leave empty for local SQLite, or enter a shared network/PostgreSQL URL for team-wide shared data. Changes require an app restart.</p>
+    </div>
+
+    <!-- 20. SHORTCUTS -->
+    <div class="section page-break" id="shortcuts">
+      <h2>20. Keyboard Shortcuts</h2>
+      <table class="param-table">
+        <tr><th>Shortcut</th><th>Action</th><th>Page</th></tr>
+        <tr><td><code>Ctrl+Enter</code></td><td>Run backtest</td><td>Backtest</td></tr>
+        <tr><td><code>Ctrl+Enter</code></td><td>Run spread backtest</td><td>Spreads</td></tr>
+        <tr><td><code>Ctrl+Enter</code></td><td>Post message</td><td>Commentary</td></tr>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <p>&copy; 2026 VKB Agri Processors &middot; Longclaw Strategy Platform</p>
+    <p style="margin-top: 6px;">
+      Administrator: <a href="mailto:bradley.jackson@vkb.co.za">bradley.jackson@vkb.co.za</a>
+    </p>
+  </div>
+
+</body>
+</html>
