@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Longclaw - VKB Commodity Strategy Platform</title>
+  <link rel="icon" type="image/png" href="icon.png">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a120b;
+      color: #c8d6ca;
+      min-height: 100vh;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 60px 20px 40px;
+      background: linear-gradient(180deg, #0d1a0e 0%, #0a120b 100%);
+      border-bottom: 1px solid #1c3320;
+    }
+
+    .hero img {
+      width: 120px;
+      height: 120px;
+      border-radius: 24px;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: #e8f0ea;
+      text-transform: uppercase;
+    }
+
+    .hero .subtitle {
+      color: #5a9040;
+      font-size: 0.95rem;
+      letter-spacing: 0.2em;
+      margin-top: 6px;
+    }
+
+    .hero .tagline {
+      color: #7a9a7e;
+      font-size: 1.1rem;
+      margin-top: 20px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    .download-section {
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #8dc63f;
+      color: #0d1a0e;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 16px 40px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .download-btn:hover {
+      background: #a0d455;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(141, 198, 63, 0.3);
+    }
+
+    .download-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .version-info {
+      color: #4a7a3e;
+      font-size: 0.85rem;
+      margin-top: 12px;
+    }
+
+    .requirements {
+      color: #5a7a5e;
+      font-size: 0.8rem;
+      margin-top: 8px;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    .section {
+      margin-top: 50px;
+    }
+
+    .section h2 {
+      color: #8dc63f;
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #1c3320;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .feature {
+      background: rgba(141, 198, 63, 0.05);
+      border: 1px solid #1c3320;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .feature .icon {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+
+    .feature h3 {
+      color: #c8d6ca;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .feature p {
+      color: #6a8a6e;
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .steps {
+      list-style: none;
+      counter-reset: step;
+    }
+
+    .steps li {
+      counter-increment: step;
+      padding: 16px 20px 16px 60px;
+      position: relative;
+      border-left: 2px solid #1c3320;
+      margin-left: 20px;
+    }
+
+    .steps li:last-child {
+      border-left-color: transparent;
+    }
+
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: -15px;
+      top: 14px;
+      width: 28px;
+      height: 28px;
+      background: #1a2e1c;
+      border: 2px solid #8dc63f;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #8dc63f;
+    }
+
+    .steps li h3 {
+      color: #c8d6ca;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .steps li p {
+      color: #6a8a6e;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .note {
+      background: rgba(141, 198, 63, 0.08);
+      border: 1px solid #2a4a1a;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-top: 20px;
+      font-size: 0.85rem;
+      color: #7a9a7e;
+      line-height: 1.6;
+    }
+
+    .note strong {
+      color: #8dc63f;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 30px 20px;
+      border-top: 1px solid #1c3320;
+      color: #2e5230;
+      font-size: 0.8rem;
+    }
+
+    .footer a { color: #4a7a3e; text-decoration: none; }
+    .footer a:hover { color: #8dc63f; }
+
+    code {
+      background: #1a2e1c;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: #8dc63f;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <img src="icon.png" alt="Longclaw">
+    <h1>Longclaw</h1>
+    <p class="subtitle">VKB Commodity Strategy Platform</p>
+    <p class="tagline">
+      Professional backtesting, strategy discovery, and portfolio analysis
+      for commodity derivatives. Built for the VKB Group trading desk.
+    </p>
+  </div>
+
+  <div class="download-section">
+    <a id="download-btn" class="download-btn" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      Download for Windows
+    </a>
+    <p class="version-info" id="version-info">Loading version info...</p>
+    <p class="requirements">Windows 10/11 &middot; No admin rights required &middot; ~92 MB</p>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <h2>Features</h2>
+      <div class="features-grid">
+        <div class="feature">
+          <div class="icon">&#9889;</div>
+          <h3>Backtest Engine</h3>
+          <p>Multi-indicator strategy backtesting with walk-forward validation and out-of-sample metrics.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">&#127919;</div>
+          <h3>Strategy Hunter</h3>
+          <p>Automated parameter sweep across thousands of combinations to find optimal setups.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">&#128301;</div>
+          <h3>Autofit</h3>
+          <p>Machine-learning optimised parameter fitting with overfitting detection and robustness scoring.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">&#127942;</div>
+          <h3>Leaderboard</h3>
+          <p>Rank and compare saved strategies by Sharpe, win rate, profit factor, and robustness.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">&#128269;</div>
+          <h3>What-If Analysis</h3>
+          <p>Live chart with pattern detection, technical overlays, and forward scenario modelling.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">&#127956;</div>
+          <h3>Support & Resistance Zones</h3>
+          <p>Automated detection of key price levels with strength scoring and cluster analysis.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">&#9878;&#65039;</div>
+          <h3>Spread Analysis</h3>
+          <p>Calendar and inter-commodity spread modelling with seasonal decomposition.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">&#128279;</div>
+          <h3>Correlation Matrix</h3>
+          <p>Multi-instrument correlation analysis with rolling windows and regime detection.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">&#128737;</div>
+          <h3>Hedge Optimiser</h3>
+          <p>Portfolio hedge ratio calculator with min-variance and strategy-weighted optimisation.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">&#128196;</div>
+          <h3>Reports</h3>
+          <p>Automated weekly strategy review reports exported as PDF or Excel.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">&#128172;</div>
+          <h3>Commentary</h3>
+          <p>Shared team feed for market commentary, trade ideas, and strategy notes.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">&#128268;</div>
+          <h3>Refinitiv Integration</h3>
+          <p>Direct data feed from Refinitiv Eikon with auto-login via your existing session.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Installation Guide</h2>
+      <ol class="steps">
+        <li>
+          <h3>Download the Installer</h3>
+          <p>Click the download button above. Your browser may show a warning since the file is not code-signed &mdash; click <strong>"Keep"</strong> or <strong>"Download anyway"</strong>.</p>
+        </li>
+        <li>
+          <h3>Run the Setup Wizard</h3>
+          <p>Double-click <code>LongclawSetup-x.x.x.exe</code>. Windows SmartScreen may appear &mdash; click <strong>"More info"</strong> then <strong>"Run anyway"</strong>. Follow the wizard (Next &rarr; Next &rarr; Install).</p>
+        </li>
+        <li>
+          <h3>Launch Longclaw</h3>
+          <p>After install, Longclaw launches automatically. A desktop shortcut is also created. The app opens in a native window &mdash; no browser needed.</p>
+        </li>
+        <li>
+          <h3>Sign In</h3>
+          <p>If Refinitiv Eikon is running, you'll be logged in automatically using your Eikon session. Otherwise, enter the credentials provided by your administrator.</p>
+        </li>
+        <li>
+          <h3>Download Market Data</h3>
+          <p>Go to the <strong>Data</strong> tab to download instrument data from Refinitiv. Once downloaded, data is shared across all team members automatically.</p>
+        </li>
+      </ol>
+
+      <div class="note">
+        <strong>Note:</strong> Longclaw requires an active Refinitiv Eikon connection to download live market data.
+        All other features (backtesting, analysis, reports) work offline using previously downloaded data.
+        The app connects to a shared team database &mdash; strategies and data are synchronised across all users.
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>System Requirements</h2>
+      <ul style="list-style: none; padding: 0;">
+        <li style="padding: 6px 0; color: #7a9a7e;">&#10003; &nbsp; Windows 10 or Windows 11 (64-bit)</li>
+        <li style="padding: 6px 0; color: #7a9a7e;">&#10003; &nbsp; 4 GB RAM minimum (8 GB recommended)</li>
+        <li style="padding: 6px 0; color: #7a9a7e;">&#10003; &nbsp; 200 MB disk space</li>
+        <li style="padding: 6px 0; color: #7a9a7e;">&#10003; &nbsp; Internet connection (for data downloads and shared DB)</li>
+        <li style="padding: 6px 0; color: #7a9a7e;">&#10003; &nbsp; Refinitiv Eikon (optional, for live data &amp; auto-login)</li>
+        <li style="padding: 6px 0; color: #7a9a7e;">&#10003; &nbsp; No administrator rights required</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <p>&copy; 2026 VKB Group &middot; Longclaw Strategy Platform</p>
+    <p style="margin-top: 6px;">
+      Questions? Contact <a href="mailto:bradleyj@vkb.co.za">bradleyj@vkb.co.za</a>
+    </p>
+  </div>
+
+  <script>
+    // Fetch latest release info and set download URL
+    fetch('https://api.github.com/repos/Braddy95/longclaw-download/releases/latest')
+      .then(r => r.json())
+      .then(data => {
+        const asset = data.assets && data.assets[0];
+        if (asset) {
+          document.getElementById('download-btn').href = asset.browser_download_url;
+          document.getElementById('version-info').textContent =
+            `Version ${data.tag_name.replace('v', '')} \u00b7 Released ${new Date(data.published_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+        } else {
+          document.getElementById('version-info').textContent = 'Version info unavailable';
+        }
+      })
+      .catch(() => {
+        document.getElementById('version-info').textContent = 'Version info unavailable';
+      });
+  </script>
+
+</body>
+</html>
