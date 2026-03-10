@@ -223,7 +223,7 @@
     <img src="icon.png" alt="Longclaw">
     <h1>Longclaw User Guide</h1>
     <p class="sub">VKB Agri Processors &middot; Strategy Platform</p>
-    <p class="version">Version 1.0.0 &middot; March 2026 &middot; Administrator: Bradley Jackson</p>
+    <p class="version">Version 1.2.1 &middot; March 2026 &middot; Administrator: Bradley Jackson</p>
   </div>
 
   <div class="toc no-print">
@@ -232,6 +232,7 @@
       <li><a href="#getting-started">Getting Started</a></li>
       <li><a href="#data">Data Management</a></li>
       <li><a href="#backtest">Backtest Configuration</a></li>
+      <li><a href="#timelines">Compound Timelines (Multi-Timeframe)</a></li>
       <li><a href="#indicators">Indicators Reference</a></li>
       <li><a href="#rules">Entry &amp; Exit Rules</a></li>
       <li><a href="#risk">Risk Management &amp; Spread</a></li>
@@ -246,7 +247,9 @@
       <li><a href="#correlation">Correlation Finder</a></li>
       <li><a href="#hedge">Hedge Cover Optimizer</a></li>
       <li><a href="#reports">Reports</a></li>
+      <li><a href="#signals">Signal Watch</a></li>
       <li><a href="#commentary">Commentary</a></li>
+      <li><a href="#prodstress">Production Stress</a></li>
       <li><a href="#admin">Admin Panel</a></li>
       <li><a href="#shortcuts">Keyboard Shortcuts</a></li>
     </ol>
@@ -317,13 +320,14 @@
 
       <h3>Setting Up a Backtest</h3>
       <ol>
-        <li>Enter an <strong>Instrument RIC</strong> and select a <strong>Timeframe</strong></li>
+        <li>Enter an <strong>Instrument RIC</strong> and select a <strong>Timeframe</strong> (this is your signal timeframe)</li>
+        <li>Optionally add <strong>Context Timeframes</strong> for multi-timeframe filtering (see <a href="#timelines" style="color:#8dc63f">Compound Timelines</a>)</li>
         <li>Optionally set <strong>Start/End dates</strong> (defaults to all available data)</li>
-        <li>Add <strong>Indicators</strong> (up to 5)</li>
-        <li>Configure <strong>Entry Rules</strong> — the conditions that trigger a trade</li>
-        <li>Configure <strong>Exit Rules</strong> — how positions are closed</li>
-        <li>Set <strong>Risk Management</strong> — stop loss, take profit, trailing</li>
-        <li>Set <strong>Spread</strong> — transaction cost per trade</li>
+        <li>Add <strong>Indicators</strong> (up to 8 &mdash; duplicates allowed with different parameters)</li>
+        <li>Configure <strong>Entry Rules</strong> &mdash; the conditions that trigger a trade</li>
+        <li>Configure <strong>Exit Rules</strong> &mdash; how positions are closed</li>
+        <li>Set <strong>Risk Management</strong> &mdash; stop loss, take profit, trailing</li>
+        <li>Set <strong>Spread</strong> &mdash; transaction cost per trade</li>
         <li>Press <strong>Ctrl+Enter</strong> or click Run</li>
       </ol>
 
@@ -338,13 +342,81 @@
       <h3>Strategy Advisor</h3>
       <p>A live panel in the left column that analyses your current setup and suggests indicators, conditions, and risk settings. It scores your strategy 0–100 based on role coverage (trend filter, signal generator, volume confirmation).</p>
 
+      <h3>Duplicate Indicators</h3>
+      <p>You can add the same indicator twice with different parameters &mdash; e.g. Stochastic(14,3) and Stochastic(5,3). The second instance gets an <code>#2</code> label and its outputs are suffixed with <code>__1</code> in conditions. This enables cross-indicator rules like "Slow Stoch crosses above Fast Stoch".</p>
+
       <h3>Strategy Templates</h3>
       <p>Click <strong>Strategy Assistant</strong> (top right) to load pre-built templates:</p>
       <ul>
-        <li><strong>Trend Following</strong> — MA Crossover, MACD, SuperTrend, ADX Trend Strength</li>
-        <li><strong>Mean Reversion</strong> — RSI Reversal, Bollinger Bounce, Z-Score, Morning Star+MACD</li>
-        <li><strong>Breakout</strong> — Donchian Breakout, Keltner Squeeze, Head &amp; Shoulders, Trendline Break</li>
+        <li><strong>Trend Following</strong> &mdash; MA Crossover, MACD, SuperTrend, ADX Trend Strength</li>
+        <li><strong>Mean Reversion</strong> &mdash; RSI Reversal, Bollinger Bounce, Z-Score, Morning Star+MACD</li>
+        <li><strong>Breakout</strong> &mdash; Donchian Breakout, Keltner Squeeze, Head &amp; Shoulders, Trendline Break</li>
+        <li><strong>Compound Timeline</strong> &mdash; Trend-Aligned MACD, RSI+Trend Filter, BB Squeeze+Trend, Dual-TF Stochastic, Triple Screen (Elder), Ichimoku Multi-TF. These auto-configure context timeframes.</li>
       </ul>
+    </div>
+
+    <!-- 3B. COMPOUND TIMELINES -->
+    <div class="section page-break" id="timelines">
+      <h2>3b. Compound Timelines (Multi-Timeframe Strategies)</h2>
+      <p>Compound Timelines let you combine up to <strong>4 different timeframes</strong> in a single strategy. This is essential for professional trading &mdash; you don't want to take a 1-hour buy signal when the daily and weekly trends are pointing down.</p>
+
+      <h3>How It Works</h3>
+      <p>Every strategy has one <strong>Signal Timeframe</strong> (the one you select at the top &mdash; e.g. 1H). This is where your entry and exit rules are evaluated bar-by-bar. You can then add up to 3 <strong>Context Timeframes</strong> (e.g. 1D, 1W) that provide higher-level filtering.</p>
+
+      <table class="param-table">
+        <tr><th>Timeframe</th><th>Role</th><th>Badge</th><th>Example</th></tr>
+        <tr><td><strong>Signal</strong></td><td>Where entries and exits are triggered. Bar-by-bar evaluation.</td><td style="color:#22c55e">Green</td><td>1H</td></tr>
+        <tr><td><strong>Context 1</strong></td><td>First higher timeframe filter. Typically the next level up.</td><td style="color:#a855f7">Purple (CTX1)</td><td>1D</td></tr>
+        <tr><td><strong>Context 2</strong></td><td>Second higher timeframe. Additional trend confirmation.</td><td style="color:#3b82f6">Blue (CTX2)</td><td>1W</td></tr>
+        <tr><td><strong>Context 3</strong></td><td>Third higher timeframe. Rarely needed but available.</td><td style="color:#f59e0b">Amber (CTX3)</td><td>1M</td></tr>
+      </table>
+
+      <h3>Setting Up Context Timeframes</h3>
+      <ol>
+        <li>Select your <strong>Signal Timeframe</strong> as normal (e.g. 1H)</li>
+        <li>Click the <strong>+ Context</strong> button in the timeline bar (below the instrument selector)</li>
+        <li>Choose a higher timeframe from the dropdown (e.g. 1D)</li>
+        <li>Add more context timeframes if needed (up to 3 total)</li>
+        <li>Make sure you have <strong>data loaded for each timeframe</strong> &mdash; an amber dot warns you if data is missing</li>
+      </ol>
+
+      <h3>Assigning Indicators to Timeframes</h3>
+      <p>Each indicator card has a <strong>timeframe dropdown</strong>. By default, all indicators run on the Signal timeframe. Change any indicator to a Context timeframe to make it evaluate on that higher timeframe's data instead.</p>
+      <p>Example: Set EMA(200) to <strong>Context 1 (1D)</strong> and it will calculate the 200-day EMA. Your entry condition can then require "price is above EMA(200) on the daily" before taking any hourly signal.</p>
+
+      <h3>Conditions Across Timeframes</h3>
+      <p>When building entry/exit conditions, each condition row shows a <strong>colour-coded badge</strong> indicating which timeframe it operates on. You can mix timeframes freely:</p>
+      <ul>
+        <li>"MACD histogram &gt; 0" on <strong>Signal (1H)</strong> &mdash; triggers when the hourly MACD is positive</li>
+        <li>"EMA(50) is above EMA(200)" on <strong>CTX1 (1D)</strong> &mdash; only when the daily trend is up</li>
+        <li>"ADX &gt; 25" on <strong>CTX2 (1W)</strong> &mdash; only when the weekly trend is strong</li>
+      </ul>
+      <p>All conditions must be true simultaneously (AND logic) for the signal to fire. This means you can build strategies like: <em>"Enter long on the 1-hour when the MACD crosses above zero, but only if the daily EMA trend is up AND the weekly ADX confirms a strong trend."</em></p>
+
+      <h3>Practical Example: Triple Screen Strategy</h3>
+      <p>Based on Alexander Elder's Triple Screen method:</p>
+      <table class="param-table">
+        <tr><th>Timeframe</th><th>Indicator</th><th>Role</th></tr>
+        <tr><td>Signal (1H)</td><td>Stochastic(14,3)</td><td>Entry trigger &mdash; buy when Stoch crosses above 20</td></tr>
+        <tr><td>CTX1 (1D)</td><td>MACD(12,26,9)</td><td>Momentum filter &mdash; only trade when daily MACD histogram is rising</td></tr>
+        <tr><td>CTX2 (1W)</td><td>EMA(26)</td><td>Trend filter &mdash; only trade when price is above weekly EMA</td></tr>
+      </table>
+      <p>The result: you only enter trades on intraday dips (1H Stochastic oversold) that align with the daily momentum (MACD rising) and weekly trend (above EMA). This dramatically reduces false signals compared to using a single timeframe.</p>
+
+      <h3>Pre-Built Compound Templates</h3>
+      <p>The Strategy Assistant includes 6 ready-made compound timeline templates. Loading one auto-sets the context timeframes and all indicators:</p>
+      <ul>
+        <li><strong>Trend-Aligned MACD</strong> &mdash; MACD cross on signal + EMA50 trend on CTX1</li>
+        <li><strong>RSI + Trend Filter</strong> &mdash; RSI reversion on signal + ADX/EMA confirmation on CTX1</li>
+        <li><strong>BB Squeeze + Trend</strong> &mdash; Bollinger bounce on signal + SuperTrend direction on CTX1</li>
+        <li><strong>Dual-TF Stochastic</strong> &mdash; Fast Stoch entry on signal + slow Stoch zone on CTX1</li>
+        <li><strong>Triple Screen (Elder)</strong> &mdash; 3 timeframes: Stoch entry, MACD momentum, EMA trend</li>
+        <li><strong>Ichimoku Multi-TF</strong> &mdash; Tenkan/Kijun cross on signal + cloud alignment on CTX1</li>
+      </ul>
+
+      <div class="tip">
+        <strong>Key principle:</strong> Context timeframes are for <em>filtering</em>, not for generating entry signals. Your signal timeframe fires the trade; context timeframes confirm the environment is favourable. Always ensure you have data loaded for every timeframe you reference &mdash; the timeline bar shows an amber warning if data is missing.
+      </div>
     </div>
 
     <!-- 4. INDICATORS -->
@@ -369,6 +441,9 @@
         <tr><td>Aroon</td><td>period (2–200, default 25)</td><td>aroon_up, aroon_down</td></tr>
         <tr><td>VWAP</td><td>(none)</td><td>vwap</td></tr>
         <tr><td>Linear Regression</td><td>period (50), deviations (2.0)</td><td>lr_mid, lr_upper, lr_lower</td></tr>
+        <tr><td>KAMA</td><td>period (10), fast (2), slow (30)</td><td>kama</td></tr>
+        <tr><td>ZLEMA</td><td>period (2–500, default 20)</td><td>zlema</td></tr>
+        <tr><td>Elder Ray</td><td>period (13)</td><td>bull_power, bear_power</td></tr>
       </table>
 
       <h3>Range-Bound Indicators</h3>
@@ -385,6 +460,10 @@
         <tr><td>Stochastic RSI</td><td>rsi_period (14), stoch_period (14)</td><td>stoch_rsi</td></tr>
         <tr><td>MFI</td><td>period (14)</td><td>mfi</td></tr>
         <tr><td>TSI</td><td>long_period (25), short_period (13)</td><td>tsi</td></tr>
+        <tr><td>CMO</td><td>period (14)</td><td>cmo</td></tr>
+        <tr><td>KST</td><td>r1–r4 (10,15,20,30), s1–s4 (10,10,10,15), signal (9)</td><td>kst, kst_signal</td></tr>
+        <tr><td>SMI</td><td>k_period (14), d_period (3)</td><td>smi, smi_signal</td></tr>
+        <tr><td>Connors RSI</td><td>rsi_period (3), streak (2), pct_rank (100)</td><td>connors_rsi</td></tr>
       </table>
 
       <h3>Volatility &amp; Volume Indicators</h3>
@@ -400,10 +479,20 @@
         <tr><td>Pivot Points</td><td>(none)</td><td>pivot, r1, r2, r3, s1, s2, s3</td></tr>
         <tr><td>Heikin-Ashi</td><td>(none)</td><td>ha_open, ha_high, ha_low, ha_close</td></tr>
         <tr><td>ATR Trailing Stop</td><td>period (14), multiplier (3.0)</td><td>atr_stop</td></tr>
+        <tr><td>ROC</td><td>period (14)</td><td>roc</td></tr>
+        <tr><td>Awesome Oscillator</td><td>(none)</td><td>ao</td></tr>
+        <tr><td>Ultimate Oscillator</td><td>p1 (7), p2 (14), p3 (28)</td><td>uo</td></tr>
+        <tr><td>DPO</td><td>period (20)</td><td>dpo</td></tr>
+        <tr><td>Squeeze Momentum</td><td>bb_period (20), kc_period (20), kc_mult (1.5)</td><td>squeeze_val, squeeze_on</td></tr>
+        <tr><td>Coppock Curve</td><td>wma (10), roc1 (14), roc2 (11)</td><td>coppock</td></tr>
+        <tr><td>Elder Force Index</td><td>period (13)</td><td>force_index</td></tr>
+        <tr><td>Klinger Oscillator</td><td>fast (34), slow (55), signal (13)</td><td>klinger, klinger_signal</td></tr>
+        <tr><td>TRIX</td><td>period (15)</td><td>trix</td></tr>
+        <tr><td>Mass Index</td><td>ema_period (9), sum_period (25)</td><td>mass_index</td></tr>
       </table>
 
-      <h3>Multi-Timeframe Analysis</h3>
-      <p>Each indicator has a timeframe toggle: <strong>Signal</strong> (uses the backtest timeframe) or <strong>Context</strong> (a higher timeframe for filtering). Context indicators appear with a purple <code>CTX</code> badge in condition rows. This allows strategies like "only trade when the daily trend is up, but enter on 1H signals".</p>
+      <h3>Multi-Timeframe Indicators</h3>
+      <p>Each indicator has a <strong>timeframe dropdown</strong>: <strong>Signal</strong> (uses the backtest timeframe) or <strong>Context 1/2/3</strong> (a higher timeframe for filtering). Context indicators appear with colour-coded badges (purple/blue/amber) in condition rows. See <a href="#timelines" style="color:#8dc63f">Compound Timelines</a> for full details on multi-timeframe strategies.</p>
     </div>
 
     <!-- 5. RULES -->
@@ -419,7 +508,11 @@
             <li><code>crosses above</code> / <code>crosses below</code> — triggers only at the crossover bar</li>
             <li><code>is above</code> / <code>is below</code> — true whenever the value satisfies the comparison</li>
             <li><code>increases</code> / <code>decreases</code> — checks if the value is rising or falling</li>
-            <li><code>between</code> — true when the value falls within a min/max range</li>
+            <li><code>between</code> &mdash; true when the value falls within a min/max range</li>
+            <li><code>bullish divergence</code> / <code>bearish divergence</code> &mdash; price makes new low/high but indicator doesn't</li>
+            <li><code>bullish hidden div</code> / <code>bearish hidden div</code> &mdash; hidden divergence (trend continuation)</li>
+            <li><code>bullish compound div</code> / <code>bearish compound div</code> &mdash; 3+ consecutive diverging swings</li>
+            <li><code>n-touch turn up</code> / <code>n-touch turn down</code> &mdash; indicator touches a level N times then reverses</li>
           </ul>
         </li>
         <li><strong>Value</strong> — Compare against a fixed number OR another indicator. Toggle with the <code>vs</code> / <code>123</code> button.</li>
@@ -525,14 +618,17 @@
     <!-- 8. HUNTER -->
     <div class="section page-break" id="hunter">
       <h2>8. Strategy Hunter</h2>
-      <p>The Hunter automates strategy discovery by systematically testing every indicator, then combining top performers into pairs and quads.</p>
+      <p>The Hunter automates strategy discovery by systematically testing every indicator, then progressively combining top performers into multi-indicator strategies.</p>
 
-      <h3>How It Works</h3>
+      <h3>How It Works &mdash; 5 Progressive Tiers</h3>
       <ol>
-        <li><strong>Singles</strong> — Tests every indicator in the library individually</li>
-        <li><strong>Pairs</strong> — Combines the top N singles into every possible 2-indicator combination</li>
-        <li><strong>Quads</strong> — Combines the top pairs into 4-indicator strategies</li>
+        <li><strong>Singles</strong> &mdash; Tests every indicator in the library individually</li>
+        <li><strong>Pairs</strong> &mdash; Combines the top N singles into every possible 2-indicator combination</li>
+        <li><strong>Triples</strong> &mdash; Extends top pairs with a third indicator</li>
+        <li><strong>Quads</strong> &mdash; Extends top triples with a fourth indicator</li>
+        <li><strong>Quints</strong> &mdash; Extends top quads with a fifth indicator</li>
       </ol>
+      <p>Each tier is colour-coded (green/blue/purple/amber/rose). Results are auto-saved to history and can be loaded or deleted later.</p>
       <p>Scoring: <code>0.5 &times; Sharpe + 0.4 &times; Win% + 0.1 &times; trade_factor</code></p>
 
       <h3>Configuration</h3>
@@ -717,12 +813,52 @@
       </ul>
     </div>
 
+    <!-- 17B. SIGNALS -->
+    <div class="section page-break" id="signals">
+      <h2>17b. Signal Watch</h2>
+      <p>Real-time monitoring of your saved strategies and chart formations across multiple instruments. The system automatically pulls live data from Eikon every 15 minutes and evaluates your watches every 30 seconds.</p>
+
+      <h3>Watch Types</h3>
+      <table class="param-table">
+        <tr><th>Type</th><th>What It Does</th></tr>
+        <tr><td><strong>Strategy Watch</strong></td><td>Monitors a saved strategy's entry conditions across selected instruments. Fires when all conditions align.</td></tr>
+        <tr><td><strong>Formation Watch</strong></td><td>Scans for specific chart patterns (triangles, wedges, flags, candlestick patterns, etc.) on selected instruments.</td></tr>
+      </table>
+
+      <h3>Setting Up a Watch</h3>
+      <ol>
+        <li>Click <strong>+ New Watch</strong></li>
+        <li>Name your watch (e.g. "MACD Daily Signals")</li>
+        <li>Choose <strong>Strategy Signals</strong> or <strong>Formation Detection</strong></li>
+        <li>Select a strategy from your saved strategies (or pick formation types)</li>
+        <li>Add instruments to monitor (up to 10 per watch, each with its own timeframe)</li>
+      </ol>
+
+      <h3>Notifications</h3>
+      <p>When a signal triggers, you'll see it in the signal feed and receive a <strong>desktop notification</strong> (if browser permissions are granted). Each event shows the instrument, direction, price, timeframe, and which watch triggered it. Click any event to expand a chart with the signal highlighted.</p>
+
+      <h3>Evaluation Intervals</h3>
+      <p>Watches are evaluated at smart intervals based on timeframe: 1min watches every 30 seconds, daily watches every 15 minutes. This ensures timely alerts without unnecessary computation.</p>
+
+      <div class="tip">
+        <strong>Requires Eikon:</strong> Signal Watch needs a running Refinitiv Eikon session (on any superuser's machine) to auto-refresh data. Without Eikon, watches still scan existing data but won't detect new market movements.
+      </div>
+    </div>
+
     <!-- 18. COMMENTARY -->
     <div class="section page-break" id="commentary">
       <h2>18. Commentary</h2>
-      <p>A shared team feed for market observations, trade ideas, and strategy notes. All users see all posts.</p>
+      <p>A shared team feed with two separate channels:</p>
+
+      <h3>Channels</h3>
+      <table class="param-table">
+        <tr><th>Channel</th><th>Purpose</th><th>Colour</th></tr>
+        <tr><td><strong>Market Chat</strong></td><td>Market observations, trade ideas, strategy notes, and general discussion</td><td>Green (default)</td></tr>
+        <tr><td><strong>Bugs &amp; Features</strong></td><td>Report issues, request features, track platform improvements</td><td>Amber</td></tr>
+      </table>
+
+      <p>Switch between channels using the tabs at the top of the Commentary page. All team members see all posts in both channels.</p>
       <ul>
-        <li>Write observations, paste links, reference reports (<code>/reports?id=X</code>)</li>
         <li>Attach images (displayed as thumbnails with lightbox) or PDFs</li>
         <li>Posts auto-refresh every 30 seconds</li>
         <li>You can only delete your own posts</li>
@@ -730,22 +866,53 @@
       </ul>
     </div>
 
+    <!-- 18B. PRODUCTION STRESS -->
+    <div class="section page-break" id="prodstress">
+      <h2>18b. Production Stress</h2>
+      <p>Scenario-based stress testing for production portfolios. Simulate how your positions would perform under historical and hypothetical market conditions.</p>
+      <p>Access via the <strong>Prod Stress</strong> link in the sidebar. Configure your portfolio exposure and run stress scenarios to understand risk under adverse conditions.</p>
+    </div>
+
     <!-- 19. ADMIN -->
     <div class="section page-break" id="admin">
       <h2>19. Admin Panel</h2>
       <p>Visible only to administrators. Two tabs: Users and Database.</p>
 
-      <h3>Users Tab</h3>
-      <p>Manage team access. To add a new user:</p>
+      <h3>User Types</h3>
+      <table class="param-table">
+        <tr><th>Type</th><th>Capabilities</th></tr>
+        <tr><td><strong>Superuser</strong></td><td>Has Refinitiv access. Can auto-login via Eikon. Not machine-locked. Data auto-tops up from their Eikon session.</td></tr>
+        <tr><td><strong>Normal</strong></td><td>Password-only login. Locked to one machine after first login. Cannot pull data from Eikon.</td></tr>
+      </table>
+
+      <h3>Registration &amp; Approval Flow</h3>
       <ol>
-        <li>Get their <strong>Refinitiv App Key</strong> from Eikon &rarr; Menu &rarr; App Key Management</li>
-        <li>Click <strong>Add User</strong>, enter their username and app key</li>
-        <li>When they open Longclaw with Eikon running, they're automatically logged in</li>
+        <li>New user visits the <strong>Register</strong> page and creates an account (username + password)</li>
+        <li>Account is created with <strong>Pending</strong> status &mdash; they cannot log in yet</li>
+        <li>Admin sees the pending user on the Admin page (highlighted in amber)</li>
+        <li>Admin clicks <strong>Approve</strong> to activate the account</li>
+        <li>User can now log in. Normal users are <strong>machine-locked</strong> on first login</li>
       </ol>
-      <p>You can also edit keys, toggle admin roles, and remove users.</p>
+      <p>Alternatively, admin can pre-create users via <strong>+ Add User</strong> &mdash; these are pre-approved and ready to log in immediately.</p>
+
+      <h3>Admin Actions</h3>
+      <ul>
+        <li><strong>Edit</strong> &mdash; Change password, user type (Normal/Superuser), or Refinitiv app key</li>
+        <li><strong>Make/Revoke Admin</strong> &mdash; Promote or demote admin role</li>
+        <li><strong>Reset Lock</strong> &mdash; Clear a normal user's machine lock (they re-lock to their next login machine)</li>
+        <li><strong>Remove</strong> &mdash; Delete the user account</li>
+      </ul>
+
+      <h3>User Status</h3>
+      <p>The users table shows each user's live status:</p>
+      <ul>
+        <li><strong style="color:#4ade80">Online</strong> (green, pulsing) &mdash; active in the last 2 minutes</li>
+        <li><strong style="color:#fbbf24">Idle</strong> (amber) &mdash; active in the last 10 minutes</li>
+        <li><strong style="color:#64748b">Offline</strong> (grey) &mdash; shows time since last seen</li>
+      </ul>
 
       <h3>Database Tab</h3>
-      <p>Configure the database connection. Leave empty for local SQLite, or enter a shared network/PostgreSQL URL for team-wide shared data. Changes require an app restart.</p>
+      <p>Shows the shared database connection status. Data is synchronised automatically across all team members via the cloud database.</p>
     </div>
 
     <!-- 20. SHORTCUTS -->
